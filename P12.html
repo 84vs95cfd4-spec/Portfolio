@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Simple Portfolio</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body { background:#f7f7fb; }
+    .card-img { height:140px; object-fit:cover; }
+    .card { transition: transform .12s ease; }
+    .card:hover { transform: translateY(-4px); }
+  </style>
+</head>
+<body>
+
+<nav class="navbar navbar-light bg-white border-bottom">
+  <div class="container">
+    <a class="navbar-brand" href="#">SimplePortfolio</a>
+    <a class="btn btn-sm btn-primary" href="#contact">Contact</a>
+  </div>
+</nav>
+
+<header class="py-4 text-center">
+  <div class="container">
+    <h1 class="h4 mb-1">Selected projects</h1>
+    <p class="text-muted small mb-0">A tiny responsive showcase with filter and details.</p>
+  </div>
+</header>
+
+<main class="container py-4">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <div>
+      <button class="btn btn-sm btn-outline-secondary me-2 filter" data-filter="all">All</button>
+      <button class="btn btn-sm btn-outline-secondary me-2 filter" data-filter="web">Web</button>
+      <button class="btn btn-sm btn-outline-secondary filter" data-filter="mobile">Mobile</button>
+    </div>
+    <div class="text-muted small">3 items</div>
+  </div>
+
+  <div class="row g-3" id="grid">
+    <div class="col-12 col-md-6" data-cat="web">
+      <div class="card h-100" role="button" tabindex="0" data-title="Shop UI" data-desc="Product grid and checkout flows" data-img="https://images.unsplash.com/photo-1503602642458-232111445657?w=800&q=60&auto=format&fit=crop">
+        <img class="card-img-top card-img" src="https://images.unsplash.com/photo-1503602642458-232111445657?w=800&q=60&auto=format&fit=crop" alt="Shop">
+        <div class="card-body">
+          <h5 class="card-title mb-1">Shop UI</h5>
+          <p class="text-muted small mb-0">Web · 2024</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-md-6" data-cat="mobile">
+      <div class="card h-100" role="button" tabindex="0" data-title="Fitness App" data-desc="Cross-platform fitness tracker" data-img="https://images.unsplash.com/photo-1516574187841-cb9cc2ca948b?w=800&q=60&auto=format&fit=crop">
+        <img class="card-img-top card-img" src="https://images.unsplash.com/photo-1516574187841-cb9cc2ca948b?w=800&q=60&auto=format&fit=crop" alt="Fitness">
+        <div class="card-body">
+          <h5 class="card-title mb-1">Fitness App</h5>
+          <p class="text-muted small mb-0">Mobile · 2023</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-md-6" data-cat="web">
+      <div class="card h-100" role="button" tabindex="0" data-title="Dashboard" data-desc="Analytics dashboard with charts" data-img="https://images.unsplash.com/photo-1556157382-97eda2d62296?w=800&q=60&auto=format&fit=crop">
+        <img class="card-img-top card-img" src="https://images.unsplash.com/photo-1556157382-97eda2d62296?w=800&q=60&auto=format&fit=crop" alt="Dashboard">
+        <div class="card-body">
+          <h5 class="card-title mb-1">Dashboard</h5>
+          <p class="text-muted small mb-0">Web · 2024</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<div class="modal fade" id="detail" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-md modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="mTitle">Item</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body text-center">
+        <img id="mImg" src="" alt="" class="img-fluid mb-3 rounded">
+        <p id="mDesc" class="small text-muted"></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="py-4 text-center small text-muted">© 2026 SimplePortfolio</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  document.querySelectorAll('.filter').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const f = btn.dataset.filter;
+      document.querySelectorAll('#grid > [data-cat]').forEach(col => {
+        col.style.display = (f === 'all' || col.dataset.cat === f) ? '' : 'none';
+      });
+    });
+  });
+
+  const modalEl = document.getElementById('detail');
+  const bsModal = new bootstrap.Modal(modalEl);
+  document.querySelectorAll('#grid .card').forEach(card => {
+    function open() {
+      document.getElementById('mTitle').textContent = card.dataset.title;
+      document.getElementById('mDesc').textContent = card.dataset.desc;
+      const img = document.getElementById('mImg'); img.src = card.dataset.img; img.alt = card.dataset.title;
+      bsModal.show();
+    }
+    card.addEventListener('click', open);
+    card.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); } });
+  });
+</script>
+</body>
+</html>
